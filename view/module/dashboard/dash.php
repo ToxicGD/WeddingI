@@ -37,7 +37,7 @@
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <div class="navbar-nav">
       <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="#">salir</a>
+        <a class="nav-link px-3" href="">salir</a>
       </div>
     </div>
   </header>
@@ -50,7 +50,7 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
                 <span class="badge text-bg-primary p-2">agregar registro</span>
-                <button type="button" data-toggle="modal" data-target="#modalI" class="btn btn-outline-success rounded-circle m-1 mx-auto"><i class="bi bi-plus-lg"></i></button>
+                <button type="button" class="btn btn-outline-success rounded-circle m-1 mx-auto" data-bs-toggle="modal" data-bs-target="#modal1"><i class="bi bi-plus-lg"></i></button>
               </a>
             </li>
           </ul>
@@ -110,12 +110,12 @@
           </table>
         </div>
         <!-- MODAL AGREGAR REGISTRO -->
-        <div class="modal" id="modalI" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" id="myModalLabel">Añadir Registro</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -141,7 +141,7 @@
               </div>
               <div class="modal-footer d-flex justify-content-center">
                 <button class="btn btn-unique">Send <i class="fas fa-paper-plane-o ml-1"></i></button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -156,6 +156,8 @@
   </div>
 
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<?php
+  include_once 'view/module/footer.php';
+?>
+
 </html>

@@ -7,7 +7,7 @@
     <!-- logo -->
     <link rel="shortcut icon" href="view/img/logo.jpg">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Alimentos GELA</title>
+    <title>Inicio De Sesión</title>
     <!-- Estilos -->
     <link rel="stylesheet" href="view/css/ohsnap.css">
     <link rel="stylesheet" href="view/css/sweetalert2.min.css">
@@ -51,7 +51,7 @@
       <!-- Formulario de ingreso -->
     <form method="post"  class="container-sm mx-auto">
  <div class="form-group">
-<img class="mb-4" src="view/img/logo.jpg" alt="" width="72" height="57">
+<img class="mb-4" src="view/image/Sample_User_Icon.png" alt="" width="72" height="57">
 
 <h1 class="h3 mb-3 fw-normal">Login</h1>
 

@@ -29,13 +29,13 @@
             return $result;
         }//END METHOD
         public function mldInsertUsuario(){
-            $sql  = "CALL spInsertUser (?, ?, ?, ?, 2);";
+            $sql  = "CALL spInsertUser (?, ?);";
             $estado = false;
             try {
                 $objCon = new Conexion();
                 $stmt = $objCon->getConect() -> prepare($sql);
-                $stmt ->  bindParam(3,  $this -> nombre,      PDO::PARAM_STR);
-                $stmt ->  bindParam(4,  $this -> password,  PDO::PARAM_STR);
+                $stmt ->  bindParam(1,  $this -> nombre,      PDO::PARAM_STR);
+                $stmt ->  bindParam(2,  $this -> password,  PDO::PARAM_STR);
                 $estado = $stmt -> execute();
             } catch (PDOException $e) {
                 echo "Error al insertar usuarios " . $e ->getMessage();
