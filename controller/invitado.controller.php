@@ -15,6 +15,31 @@ class invitadoController{
         }
         return $respon;
     }
+
+    public function createInvitados($invitado, $acompanante, $mesa, $link ){
+        try{
+            $objDtoInvitado = new Invitado();
+            $objDtoInvitado -> setInvitado($invitado);
+            $objDtoInvitado -> setAcompanante($acompanante);
+            $objDtoInvitado -> setMesa($mesa);
+            $objDtoInvitado -> setCodigo($link);
+
+            $objDaoInvitado = new invitadoModel($objDtoInvitado);
+
+            if ($objDaoInvitado -> mdlInsertInvitado()){
+                echo "<script>
+                Swal.fire(
+                    'Guardado',
+                    'Registro insertado',
+                    'success'
+                  )
+                </script>";
+            }
+
+        } catch(Exception $e){
+            echo "Error en el controlador de insercion " . $e->getMessage();
+        }
+    }
 }
 
 

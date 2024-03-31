@@ -37,7 +37,17 @@
     <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
     <div class="navbar-nav">
       <div class="nav-item text-nowrap">
-        <a class="nav-link px-3" href="">salir</a>
+        <form method="post">
+          <input type="hidden" class="nav-item" name="close">
+          <button type="submit" class="btn btn-outline-light px-3 fs-6">salir</button>
+        </form>
+        <?php
+        if (isset($_POST['close'])){
+            $_SESSION['login'] = false;
+            unset($_SESSION['login']);
+            header('location: index.php');
+        }
+        ?>
       </div>
     </div>
   </header>
@@ -109,45 +119,68 @@
             </tbody>
           </table>
         </div>
+
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
         <!-- MODAL AGREGAR REGISTRO -->
+
         <div class="modal" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header text-center">
                 <h4 class="modal-title w-100 font-weight-bold" id="myModalLabel">Añadir Registro</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btn btn-light" data-bs-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body mx-3">
-                <div class="md-form mb-5">
-                  <i class="fas fa-user prefix grey-text"></i>
-                  <input type="text" id="form34" class="form-control validate">
-                  <label data-error="wrong" data-success="right" for="form34" required>Nombre completo</label>
-                </div>
+                <form method="post" id="frmInvitados" class="container-xl">
+                  <div class="md-form mb-5">
+                    <i class="fas fa-user prefix grey-text"></i>
+                    <input type="text" id="txtNombre" name="txtNombre" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="form34" required>Nombre completo</label>
+                  </div>
 
-                <div class="md-form mb-5">
-                  <i class="fas fa-envelope prefix grey-text"></i>
-                  <input type="email" id="form29" class="form-control validate">
-                  <label data-error="wrong" data-success="right" for="form29" required>Acompañantes</label>
-                </div>
+                  <div class="md-form mb-5">
+                    <i class="fas fa-envelope prefix grey-text"></i>
+                    <input type="number" id="intAcompanantes" name="intAcompanantes" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="form29" required>Acompañantes</label>
+                  </div>
 
-                <div class="md-form mb-5">
-                  <i class="fas fa-tag prefix grey-text"></i>
-                  <input type="text" id="form32" class="form-control validate">
-                  <label data-error="wrong" data-success="right" for="form32" required>numero de mesa</label>
-                </div>
-
+                  <div class="md-form mb-5">
+                    <i class="fas fa-tag prefix grey-text"></i>
+                    <input type="number" id="intMesa" name="intMesa" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="form32" required>numero de mesa</label>
+                  </div>
+                </form>
               </div>
               <div class="modal-footer d-flex justify-content-center">
-                <button class="btn btn-unique">Send <i class="fas fa-paper-plane-o ml-1"></i></button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> cancelar</button>
+                <button class="btn btn-success" onclick="validateRe(event)">Enviar <i class="bi bi-send"></i></button>
               </div>
             </div>
           </div>
         </div>
-      </main>
 
+        <?php
+        $nombre = $_POST['txtNombre'];
+        function genHash($nombre) {
+          return hash('MD5', $nombre, true);
+        }
+        $hash = genHash($nombre);
+        //ENVÍAR LA INFORMACIÓN DE REGISTRO A LA DB
+          if (isset($_POST['txtNombre'])){
+            $objCtrInvitado = new invitadoController();
+            $objCtrInvitado -> createInvitados(
+              $_POST['txtNombre'],
+              $_POST['intAcompanantes'],
+              $_POST['intMesa'],
+              $hash
+            );
+          }
+          var_dump($objCtrInvitado);
+        ?>
+      </main>
     </div>
 
   </div>

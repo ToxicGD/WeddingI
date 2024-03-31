@@ -7,13 +7,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="view/js/crud.js"></script>
-<script src="view/js/jquery-3.6.1.js"></script>
-<script src="view/js/jquery-3.6.1.min.js"></script>
 <script src="view/js/sweetalert2.all.min.js"></script>
 <script src="view/js/dashboard.js"></script>
 <script src="view/js/ohsnap.js"></script>
-<script src="view/js/pagoVal.js"></script>
-
 <!-- Footer -->
 
 <footer class="my-4  text-muted text-center">
@@ -29,7 +25,7 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="js/main_page.js"></script>
+<script src="view/js/main_page.js"></script>
 <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
 <script>
