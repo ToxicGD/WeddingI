@@ -42,10 +42,26 @@
           <button type="submit" class="btn btn-outline-light px-3 fs-6">salir</button>
         </form>
         <?php
-        if (isset($_POST['close'])){
-            $_SESSION['login'] = false;
-            unset($_SESSION['login']);
-            header('location: index.php');
+        if (isset($_POST['close'])) {
+          $_SESSION['login'] = false;
+          unset($_SESSION['login']);
+          header('location: index.php');
+        }
+
+        if (isset($_GET['route'])) {
+          switch ($_GET['route']) {
+            case 'invitado':
+              include_once 'dash.php';
+              break;
+            case 'erase':
+              include_once 'eraseInvitado.php';
+              break;
+            default:
+              include_once 'dash.php';
+              break;
+          }
+        } else {
+          include_once 'dash.php';
         }
         ?>
       </div>
@@ -92,21 +108,22 @@
             </thead>
             <tbody>
               <?php
-                $data = new invitadoController();
-                if(gettype($data)>0){
-                  foreach($data -> showInvitados() as $key => $value){
-                    print'<tr>
-                    <td>'.$value["id"].'</td>
-                    <td>'.$value["invitado"].'</td>
-                    <td>'.$value["acompanantes"].'</td>
-                    <td>'.$value["mesa"].'</td>
-                    <td>'.$value["codigo"].'</td>
+              $data = new invitadoController();
+              if (gettype($data) > 0) {
+                foreach ($data->showInvitados() as $key => $value) {
+                  print '<tr>
+                    <td>' . $value["id"] . '</td>
+                    <td>' . $value["invitado"] . '</td>
+                    <td>' . $value["acompanantes"] . '</td>
+                    <td>' . $value["mesa"] . '</td>
+                    <td>' . $value["codigo"] . '</td>
                     <td>
-                  <button type="button" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></button>
-                  <button type="button" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></button>
+                  <button type="button" class="btn btn-danger" onclick="erase(this.parentElement.parentElement)"><i class="bi bi-trash3-fill"></i></button>
+                  <button type="button" class="btn btn-warning" onclick="edit(this.parentElement.parentElement)" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-pencil-fill"></i></button>
                   </td>';
-                  }
-                  }else{ echo'<tr>
+                }
+              } else {
+                echo '<tr>
                     <td>Vacío</td>
                     <td>Vacío</td>
                     <td>Vacío</td>
@@ -119,7 +136,6 @@
             </tbody>
           </table>
         </div>
-
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <!-- MODAL AGREGAR REGISTRO -->
@@ -134,28 +150,28 @@
                 </button>
               </div>
               <div class="modal-body mx-3">
-                <form method="post" id="frmInvitados" class="container-xl">
+                <form method="POSt" id="frmInvitados" class="container-xl">
                   <div class="md-form mb-5">
                     <i class="fas fa-user prefix grey-text"></i>
-                    <input type="text" id="txtNombre" name="txtNombre" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="form34" required>Nombre completo</label>
+                    <input type="text" id="txtNombre" name="txtNombre" class="form-control validate" required>
+                    <label data-error="wrong" data-success="right" for="form34">Nombre completo</label>
                   </div>
 
                   <div class="md-form mb-5">
                     <i class="fas fa-envelope prefix grey-text"></i>
-                    <input type="number" id="intAcompanantes" name="intAcompanantes" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="form29" required>Acompañantes</label>
+                    <input type="number" id="intAcompanantes" name="intAcompanantes" class="form-control validate" required>
+                    <label data-error="wrong" data-success="right" for="form29">Acompañantes</label>
                   </div>
 
                   <div class="md-form mb-5">
                     <i class="fas fa-tag prefix grey-text"></i>
-                    <input type="number" id="intMesa" name="intMesa" class="form-control validate">
-                    <label data-error="wrong" data-success="right" for="form32" required>numero de mesa</label>
+                    <input type="number" id="intMesa" name="intMesa" class="form-control validate" required>
+                    <label data-error="wrong" data-success="right" for="form32">numero de mesa</label>
                   </div>
                 </form>
               </div>
               <div class="modal-footer d-flex justify-content-center">
-              <button class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> cancelar</button>
+                <button class="btn btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> cancelar</button>
                 <button class="btn btn-success" onclick="validateRe(event)">Enviar <i class="bi bi-send"></i></button>
               </div>
             </div>
@@ -163,25 +179,116 @@
         </div>
 
         <?php
-        $nombre = $_POST['txtNombre'];
-        function genHash($nombre) {
-          return hash('MD5', $nombre, true);
-        }
-        $hash = genHash($nombre);
+
+        $hash = bin2hex(random_bytes(5));;
         //ENVÍAR LA INFORMACIÓN DE REGISTRO A LA DB
-          if (isset($_POST['txtNombre'])){
-            $objCtrInvitado = new invitadoController();
-            $objCtrInvitado -> createInvitados(
-              $_POST['txtNombre'],
-              $_POST['intAcompanantes'],
-              $_POST['intMesa'],
-              $hash
-            );
-          }
-          var_dump($objCtrInvitado);
+        if (isset($_POST['txtNombre'])) {
+          $objCtrInvitado = new invitadoController();
+          $objCtrInvitado->createInvitados(
+            $_POST['txtNombre'],
+            (int)$_POST['intAcompanantes'],
+            (int)$_POST['intMesa'],
+            $hash
+          );
+        }
         ?>
+
+        <!-- Modal EDITAR -->
+        <div id="ohsnap"></div>
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header bg bg-info">
+                <h4 class="modal-title">Modificar Invitado</h4>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form method="post" class="form-floating" id="frmUserModify">
+                  <input type="hidden" name="txtIdM" id="txtIdM">
+                  <div class="box-body">
+                    <div class="row">
+                      <div class=" col-md">
+                        <!-- texto box -->
+                        <div class="form-floating">
+                          <label for="floatingInput">Nombre</label>
+                          <input type="text" class="form-control col-form-label" id="txtNombreM" name="txtNombreM">
+                        </div>
+                      </div>
+                      <div class="col-md">
+                        <!-- texto box -->
+                        <div class="form-floating">
+                          <label for="floatingInput">Acompañante</label>
+                          <input type="number" class="form-control col-form-label" id="intAcomM" name="intAcomM">
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row g-3">
+                      <div class=" col-md-6 ">
+                        <!-- texto box -->
+                        <div class="form-floating">
+                          <label for="floatingInput">Mesa</label>
+                          <input type="text" class="form-control col-form-label" id="intMesaM" name="intMesaM">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <!-- texto box -->
+                        <div class="form-floating">
+                          <label for="floatingInput">Invitacion</label>
+                          <input type="text" class="form-control col-form-label" id="txtInvitM" name="txtInvitM">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+                </form>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <div>
+                  <button class="btn btn-success" onclick="validateMI(event)"> Guardar</button>
+                  <?php
+                  if (isset($_POST['txtNombreM'])) {
+                    $objCtrInvitado = new InvitadoController();
+                    $objCtrInvitado->updateInvitado(
+                      $_POST['txtIdM'],
+                      $_POST['txtNombreM'],
+                      (int)$_POST['intAcomM'],
+                      (int)$_POST['intMesaM'],
+                      $_POST['txtInvitM']
+                    );
+                    include_once 'view/module/dashboard/dash.php';
+                  }
+                  ?>
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
       </main>
     </div>
+  </div>
+  <?php
+  if(isset($_POST['txtNombreM'])){
+    $objCtrInvitado = new InvitadoController();
+    $objCtrInvitado->updateInvitado(
+      $_POST['txtIdM'],
+      $_POST['txtNombreM'],
+      (int)$_POST['intAcomM'],
+      (int)$_POST['intMesaM'],
+      $_POST['txtInvitM']
+    );
+    // include_once 'view/module/user.php';
+  }
+  ?>
+
+  </main>
+  </div>
 
   </div>
 
@@ -190,7 +297,7 @@
 
 </body>
 <?php
-  include_once 'view/module/footer.php';
+include_once 'view/module/footer.php';
 ?>
 
 </html>

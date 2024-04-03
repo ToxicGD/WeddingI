@@ -3,7 +3,7 @@ class Invitado{
 
     private $id;
     private $invitado;
-    private $acompanantes;
+    private $acompanante;
     private $mesa;
     private $codigo;
 
@@ -17,7 +17,7 @@ class Invitado{
     }
 
     public function getAcompanante(){
-        return $this -> acompanantes;
+        return $this -> acompanante;
     }
 
     public function getMesa(){
@@ -36,8 +36,8 @@ class Invitado{
         $this -> invitado = $invitado;
     }
 
-    public function setAcompanante($acompanantes){
-        $this -> acompanantes = $acompanantes;
+    public function setAcompanante($acompanante){
+        $this -> acompanante = $acompanante;
     }
 
     public function setMesa($mesa){

@@ -3,16 +3,16 @@ class invitadoModel{
 
     private $id;
     private $invitado;
-    private $acompanantes;
+    private $acompanante;
     private $mesa;
     private $codigo;
 
     public function __construct($objDtoInvitado){
         $this->id = $objDtoInvitado->getIdI();
         $this->invitado = $objDtoInvitado->getInvitado();
-        $this->id = $objDtoInvitado->getAcompanante();
-        $this->id = $objDtoInvitado->getMesa();
-        $this->id = $objDtoInvitado->getCodigo();
+        $this->acompanante = $objDtoInvitado->getAcompanante();
+        $this->mesa = $objDtoInvitado->getMesa();
+        $this->codigo = $objDtoInvitado->getCodigo();
     }
     //-----------------------------------------------------
     // Crear invitados
@@ -25,7 +25,7 @@ class invitadoModel{
             $objCon = new Conexion();
             $stmt = $objCon->getConect()->prepare($sql);
             $stmt->bindParam(1, $this->invitado, PDO::PARAM_STR);
-            $stmt->bindParam(2, $this->acompanantes, PDO::PARAM_INT);
+            $stmt->bindParam(2, $this->acompanante, PDO::PARAM_INT);
             $stmt->bindParam(3, $this->mesa, PDO::PARAM_INT);
             $stmt->bindParam(4, $this->codigo, PDO::PARAM_STR);
             $state = $stmt->execute();
@@ -66,5 +66,27 @@ class invitadoModel{
             echo "Ha ocurrido un error al mostrar los datos en el dao " . $e->getMessage();
         }
         return $state;
+    }
+    //-----------------------------------------------------
+    // Editar Invitados
+    //-----------------------------------------------------
+
+    public function mldUpdateInvitados(){
+        $sql  = "CALL PEditInv(?, ?, ?, ?, ?);";
+        $estado = false;
+        try {
+            $objCon = new Conexion();
+            $stmt = $objCon->getConect() -> prepare($sql);
+            $stmt->bindParam(1,$this->id, PDO::PARAM_INT);
+            $stmt->bindParam(2, $this->invitado, PDO::PARAM_STR);
+            $stmt->bindParam(3, $this->acompanante, PDO::PARAM_INT);
+            $stmt->bindParam(4, $this->mesa, PDO::PARAM_INT);
+            $stmt->bindParam(5, $this->codigo, PDO::PARAM_STR);
+
+            $estado = $stmt -> execute();
+        } catch (PDOException $e) {
+            echo "Error al modfiicar Productos " . $e ->getMessage();
+        }
+        return $estado;
     }
 }

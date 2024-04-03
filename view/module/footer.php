@@ -8,6 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="view/js/crud.js"></script>
 <script src="view/js/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="view/js/dashboard.js"></script>
 <script src="view/js/ohsnap.js"></script>
 <!-- Footer -->
