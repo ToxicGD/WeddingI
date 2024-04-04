@@ -67,6 +67,21 @@ class invitadoModel{
         }
         return $state;
     }
+
+    public function mldSearchInvX(){
+        $state = false;
+        $sql = "CALL PShowX(?)";
+        try {
+            $objCon = new Conexion();
+            $stmt = $objCon -> getConect() -> prepare($sql);
+            $stmt -> bindParam(1, $this -> codigo, PDO::PARAM_STR);
+            $stmt -> execute();
+            $state = true;
+        } catch (\Throwable $th) {
+            
+        }
+        return $state;
+    }
     //-----------------------------------------------------
     // Editar Invitados
     //-----------------------------------------------------

@@ -16,6 +16,22 @@ class invitadoController{
         return $respon;
     }
 
+    // public function showInvitadoX($codigo) {
+
+    //     $respon = false;
+    //     try {
+    //         $objDtoInvitado = new Invitado();
+    //         $objDtoInvitado->setCodigo($codigo);
+    
+    //         $objDaoInvitado = new invitadoModel($objDtoInvitado);
+    //         $respon = $objDaoInvitado->mldSearchInvX()->fetchAll();
+    //     } catch (PDOException $e) {
+    //         echo "Error al ejecutar la función showInvitadoX: " . $e->getMessage();
+    //     }
+    
+    //     return $respon;
+    // }
+
     public function createInvitados($invitado, $acompanante, $mesa, $codigo ){
         try{
             $objDtoInvitado = new Invitado();

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Licorice&display=swap" rel="stylesheet">
     <title>Cesar y Yolanda</title>
-    <link rel="stylesheet" href="/view/css/invite.css">
+    <link rel="stylesheet" href="view/css/invite.css">
 
     <!-- <meta property="og:title" content="Boda de Cesar y Yolanda">
     <meta property="og:description"
@@ -24,10 +24,10 @@
             integrity="sha384-WAsFbnLEQcpCk8lM1UTWesAf5rGTCvb2Y+8LvyjAAcxK1c3s5c0L+SYOgxvc6PWG"
             crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" type="text/css" href="/view/css/main_page.css"/>
-    <link rel="stylesheet" type="text/css" href="/view/css/jquery.countdown.css"/>
+    <link rel="stylesheet" type="text/css" href="view/css/main_page.css"/>
+    <link rel="stylesheet" type="text/css" href="view/css/jquery.countdown.css"/>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="/view/js/jquery.coundown.js"></script>
+    <script src="view/js/jquery.coundown.js"></script>
     <!-- Begin Script for Countdown -->
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -55,7 +55,7 @@
         <div class="hero-body">
             <div class="container has-text-centered">
                 <h1 class="subtitle">Invitación de boda</h1>
-                <img src="/view/image/img_avatar2.png" class="rounded-circle" alt="Cinque Terre"> 
+                <img src="view/image/img_avatar2.png" class="rounded-circle" alt=""> 
                 <h4 class="subtitle tempatwaktu">
                     Domingo, 17:00
                     <br>
@@ -82,12 +82,14 @@
                 <div class="spasi">
                 </div>
                 <script type="text/javascript">
+                    // TODO Date format: 07/27/2017 17:00:00
+                    // TODO Your Timezone Offset
                     var now = new Date();
                     var date_wed = '05/05/2024 17:00:00';
 
                     $('#hitungmundur').countdown({
-                        date: date_wed, // TODO Date format: 07/27/2017 17:00:00
-                        offset: -5, // TODO Your Timezone Offset
+                        date: date_wed,
+                        offset: -5,
                         day: 'Dias',
                         days: 'Dias',
                         hour: 'Horas',
@@ -175,17 +177,40 @@
                 </div>
                 <div class="column is-12 prolog has-text-centered letter" data-aos="fade-up" data-aos-easing="linear">
                     <p class="h2">
-                        Por favor, confirma tu asistencia antes de junio de 2024.
+                        Por favor, confirma tu asistencia una semana antes.
                     </p>
                     <div class="space40px"></div>
                     <form name="RSVPesp" method="POST" data-netlify="true">
                         <input type="hidden" name="subject" value="RSVP spanish"/>
                         <p>
-                            <label>Tu nombre: <input type="text" name="name" required/></label>
-                        </p>
-                        <p>
-                            <label>Tu teléfono: <input type="tel" name="phone" required/></label>
-                        </p>
+                            <label>Tu nombre: </label><?php
+                                $code = $_GET["code"];
+                                if (isset($code)) {
+                                    $_SESSION['invitacion'] = true;
+                                    $data = new invitadoController();
+                                if (gettype($data) > 0){
+                                    foreach ($data->showInvitados() as $key => $value){
+                                        if ($value["codigo"] == $code) {
+                                            print '<b>'. $value["invitado"] . '</b></p>
+                                            <p>
+                                                <label>Tu teléfono: <input type="tel" name="phone" /></label>
+                                            </p>
+                                            <p>
+                                                <label>Personas que asisten: <b>'.$value["acompanantes"].'</b></label>
+                                            </p>
+                                            <p><label>Mesa asignada: </label> <b>'. $value["mesa"] .'</b></p>';
+                                        }
+                                    }
+                                }
+                                }
+                                 else{
+                                            $_SESSION['invitacion'] = false;
+                                            unset($_SESSION['invitacion']);
+                                            header('location: index.php');
+                                        }
+                                //<td> <a href="index.php?route=invite">' . $value["codigo"] . '</a></td>';
+                                ?>
+                        
                         <p>
                             <label>Asistirás a la boda?
                                 <select name="attendance" required>
@@ -194,9 +219,6 @@
                                     <option value="no">No</option>
                                 </select>
                             </label>
-                        </p>
-                        <p>
-                            <label>Personas que asisten: <input type="number" name="people" min="0" required/></label>
                         </p>
                         <p>
                             <button type="submit" class="button btn-whatsapp">Enviar</button>

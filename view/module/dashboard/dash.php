@@ -30,7 +30,7 @@
 <body>
 
   <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Panel de Control</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="index.php?route=home">Panel de Control</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -50,11 +50,19 @@
 
         if (isset($_GET['route'])) {
           switch ($_GET['route']) {
+            case 'home':
+                include_once 'dash.php';
+              break;
             case 'invitado':
               include_once 'dash.php';
               break;
             case 'erase':
               include_once 'eraseInvitado.php';
+              break;
+            case 'invite':
+              //include_once 'view/module/invitacion.php';
+              $_SESSION["invitacion"] = true;
+              header("Location: index.php");
               break;
             default:
               include_once 'dash.php';
@@ -108,15 +116,19 @@
             </thead>
             <tbody>
               <?php
+
+              
+              
               $data = new invitadoController();
               if (gettype($data) > 0) {
                 foreach ($data->showInvitados() as $key => $value) {
+                  $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'].'?route=invite=&code='.$value["codigo"].'';
                   print '<tr>
                     <td>' . $value["id"] . '</td>
                     <td>' . $value["invitado"] . '</td>
                     <td>' . $value["acompanantes"] . '</td>
                     <td>' . $value["mesa"] . '</td>
-                    <td>' . $value["codigo"] . '</td>
+                    <td> <a href="index.php?route=invite&code='.$value["codigo"].'">' . $value["codigo"] . '</a></td>
                     <td>
                   <button type="button" class="btn btn-danger" onclick="erase(this.parentElement.parentElement)"><i class="bi bi-trash3-fill"></i></button>
                   <button type="button" class="btn btn-warning" onclick="edit(this.parentElement.parentElement)" data-bs-toggle="modal" data-bs-target="#myModal"><i class="bi bi-pencil-fill"></i></button>
