@@ -89,9 +89,9 @@ function validateMI(e){
     acompanantes = document.getElementById("intAcomM");
     mesa = document.getElementById("intMesaM");
     codigo = document.getElementById("txtInvitM");
-    
+
     lVali = true;
-    
+
     if (nombre.value==""){
         nombre.style.borderColor="red";
         ohSnap('Ingresar el nombre...', {color: 'red'});  // alert will have class 'alert-color'
@@ -117,3 +117,25 @@ function validateMI(e){
     }
 
 }
+
+function Selected(){
+/* Para obtener el texto */
+var combo = document.getElementById("attendance");
+var selected = combo.options[combo.selectedIndex].text;
+
+return selected;
+}
+
+function mensaje(){
+    let respuesta = Selected();
+    let link = "https://api.whatsapp.com/send?phone=573155000152&text=yo%20%22"+respuesta+"%22%20asistir%C3%A9%20a%20tu%20boda%20con%20mis%20acompa%C3%B1antes";
+    window.open(link);
+}
+
+// function invitacion(elm) {
+
+//     let codigo = elm.children[4].innerHTML;
+//     let url = "index.php?route=invite&code="+codigo;
+//     window.location = "index.php?route=invite&code="+codigo;
+//     window.open(url);
+// }

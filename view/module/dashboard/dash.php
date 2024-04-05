@@ -62,8 +62,6 @@
             case 'invite':
               include_once 'view/module/invitacion.php';
               $_SESSION["invitacion"] = true;
-              $_SESSION['login'] = false;
-              unset($_SESSION['login']);
               header('location: index.php');
               break;
             default:
@@ -119,8 +117,6 @@
             <tbody>
               <?php
 
-              
-              
               $data = new invitadoController();
               if (gettype($data) > 0) {
                 foreach ($data->showInvitados() as $key => $value) {
@@ -252,7 +248,7 @@
                         <!-- texto box -->
                         <div class="form-floating">
                           <label for="floatingInput">Invitacion</label>
-                          <input type="text" class="form-control col-form-label" id="txtInvitM" name="txtInvitM">
+                          <input type="text" class="form-control col-form-label" id="txtInvitM" name="txtInvitM"disabled>
                         </div>
                       </div>
                     </div>
@@ -272,8 +268,7 @@
                       $_POST['txtIdM'],
                       $_POST['txtNombreM'],
                       (int)$_POST['intAcomM'],
-                      (int)$_POST['intMesaM'],
-                      $_POST['txtInvitM']
+                      (int)$_POST['intMesaM']
                     );
                     include_once 'view/module/dashboard/dash.php';
                   }
@@ -294,8 +289,7 @@
       $_POST['txtIdM'],
       $_POST['txtNombreM'],
       (int)$_POST['intAcomM'],
-      (int)$_POST['intMesaM'],
-      $_POST['txtInvitM']
+      (int)$_POST['intMesaM']
     );
     // include_once 'view/module/user.php';
   }

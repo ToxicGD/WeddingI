@@ -87,7 +87,7 @@ class invitadoModel{
     //-----------------------------------------------------
 
     public function mldUpdateInvitados(){
-        $sql  = "CALL PEditInv(?, ?, ?, ?, ?);";
+        $sql  = "CALL PEditInv(?, ?, ?, ?);";
         $estado = false;
         try {
             $objCon = new Conexion();
@@ -96,7 +96,6 @@ class invitadoModel{
             $stmt->bindParam(2, $this->invitado, PDO::PARAM_STR);
             $stmt->bindParam(3, $this->acompanante, PDO::PARAM_INT);
             $stmt->bindParam(4, $this->mesa, PDO::PARAM_INT);
-            $stmt->bindParam(5, $this->codigo, PDO::PARAM_STR);
 
             $estado = $stmt -> execute();
         } catch (PDOException $e) {

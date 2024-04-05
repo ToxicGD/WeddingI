@@ -57,14 +57,13 @@ class invitadoController{
         }
     }
 
-    public function UpdateInvitado($id, $invitado, $acompanante, $mesa, $codigo){
+    public function UpdateInvitado($id, $invitado, $acompanante, $mesa){
         try{
             $objDtoInvitado = new Invitado();
             $objDtoInvitado -> setIdI($id);
             $objDtoInvitado -> setInvitado($invitado);
             $objDtoInvitado -> setAcompanante($acompanante);
             $objDtoInvitado -> setMesa($mesa);
-            $objDtoInvitado -> setCodigo($codigo);
             $objDaoInvitado = new InvitadoModel($objDtoInvitado);
             if ($objDaoInvitado -> mldUpdateInvitados()){
                 echo "<script>

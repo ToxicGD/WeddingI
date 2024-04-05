@@ -61,6 +61,9 @@
                         <br>
                         IPUC Bello Porvenir
                     </h4>
+                    <audio controls autoplay>
+                        <source src="view/module/sound.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
                 <!-- Start Countdown -->
                 <div class="container has-text-centered">
@@ -180,40 +183,44 @@
                         <p class="h2">
                             Por favor, confirma tu asistencia una semana antes.
                         </p>
-                        <div class="space40px"></div>
-                        <form name="RSVPesp" method="POST" data-netlify="true">
-                            <input type="hidden" name="subject" value="RSVP spanish" />
-                            <p>
-                                <label>Tu nombre: </label><?php
+                        <?php
                                                             $code = $_GET["code"];
+                                                            if (isset($code)) {
+                                                                $_SESSION['invitacion'] = true;
+                                                            }
                                                             $data = new invitadoController();
                                                             if (gettype($data) > 0) {
                                                                 foreach ($data->showInvitados() as $key => $value) {
-                                                                    if ($value["codigo"] == $code) {
-                                                                        print '<b>' . $value["invitado"] . '</b></p>
+                                                                    if ($value["codigo"] == $code) { ?>
+                        <div class="space40px"></div>
+                        <form name="RSVPesp" method="POST" action="evalue()">
+                            <input type="hidden" name="subject" value="RSVP spanish" />
+                            <p>
+                                <label>Tu nombre: </label>
+                                <?php        print '<b id = "invitado">' . $value["invitado"] . '</b></p>
                                             <p>
                                                 <label>Tu teléfono: <input type="tel" name="phone" /></label>
                                             </p>
                                             <p>
-                                                <label>Personas que asisten: <b>' . $value["acompanantes"] . '</b></label>
+                                                <label>Personas que asisten: <b id = "acompanantes">' . $value["acompanantes"] . '</b></label>
                                             </p>
-                                            <p><label>Mesa asignada: </label> <b>' . $value["mesa"] . '</b></p>';
+                                            <p><label>Mesa asignada: </label> <b id = "mesa">' . $value["mesa"] . '</b></p>';
                                                                     } else {
 
                                                                         try {
                                                                             $_SESSION['invitacion'] = false;
-                                                                            unset($_SESSION['login']);
+                                                                            unset($_SESSION['invitacion']);
                                                                         } catch (Exception $th) {
                                                                         }
                                                                     }
                                                                 }
                                                             }
-                                                            //<td> <a href="index.php?route=invite">' . $value["codigo"] . '</a></td>';
+                                                            
                                                             ?>
 
                             <p>
                                 <label>Asistirás a la boda?
-                                    <select name="attendance" required>
+                                    <select name="attendance" id="attendance" onchange="Selected()">
                                         <option value="">Seleccionar...</option>
                                         <option value="yes">Sí</option>
                                         <option value="no">No</option>
@@ -221,7 +228,7 @@
                                 </label>
                             </p>
                             <p>
-                                <button type="submit" class="button btn-whatsapp">Enviar</button>
+                                <button type="button" class="button btn-whatsapp" onclick="mensaje()">Enviar</button>
                             </p>
                         </form>
 
@@ -265,7 +272,8 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/view/js/main_page.js"></script>
+    <script src="view/js/main_page.js"></script>
+    <script src="view/js/crud.js"></script>
     <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
     <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
     <script>
