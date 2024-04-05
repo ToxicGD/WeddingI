@@ -60,9 +60,11 @@
               include_once 'eraseInvitado.php';
               break;
             case 'invite':
-              //include_once 'view/module/invitacion.php';
+              include_once 'view/module/invitacion.php';
               $_SESSION["invitacion"] = true;
-              header("Location: index.php");
+              $_SESSION['login'] = false;
+              unset($_SESSION['login']);
+              header('location: index.php');
               break;
             default:
               include_once 'dash.php';
